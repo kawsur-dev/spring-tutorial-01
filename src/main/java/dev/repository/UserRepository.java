@@ -1,50 +1,48 @@
 package dev.repository;
 
 import dev.domain.User;
-import org.springframework.stereotype.Controller;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.sql.*;
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Queue;
 
 @Repository
 public class UserRepository {
 
-    private DataSource dataSource;
+    private SessionFactory sessionFactory;
 
-    public UserRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public UserRepository(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public void create(User user) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (full_name, email, password, date_of_birth) VALUES (?, ?, ?, ?)");
-        preparedStatement.setString(1, user.getFullname());
-        preparedStatement.setString(2, user.getEmail());
-        preparedStatement.setString(3, user.getPassword());
-        preparedStatement.setDate(4, Date.valueOf(user.getDateOfBirth()));
-        preparedStatement.execute();
+        Session session = sessionFactory.getCurrentSession();
+        session.save(user);
     }
 
-    public void update(User user) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users set full_name = ?, password = ?, date_of_birth = ? WHERE email = ?");
-        preparedStatement.setString(1, user.getFullname());
-        preparedStatement.setString(2, user.getPassword());
-        preparedStatement.setDate(3, Date.valueOf(user.getDateOfBirth()));
-        preparedStatement.setString(4, user.getEmail());
-        preparedStatement.execute();
+    public void edit(User user) throws SQLException {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(user);
     }
 
-    public User get(String email) throws SQLException {
-        Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT full_name, email, password, date_of_birth FROM users WHERE email = ?");
-        preparedStatement.setString(1, email);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-             return new User(resultSet.getString("full_name"), resultSet.getString("email"), resultSet.getString("password"), resultSet.getDate("date_of_birth").toLocalDate());
-        }
-        return new User();
+    public void delete(int id) throws SQLException {
+        Session session = sessionFactory.getCurrentSession();
+        User user = get(id);
+        session.delete(user);
+    }
+
+    public List<User> getAll() throws SQLException {
+        Session session = sessionFactory.getCurrentSession();
+        Query<User> userQuery = session.createQuery("from User", User.class);
+        return userQuery.getResultList();
+    }
+
+    public User get(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(User.class, id);
     }
 }

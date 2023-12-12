@@ -4,9 +4,11 @@ import dev.domain.User;
 import dev.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.SQLException;
 
 @Service
+@Transactional
 public class UserService {
 
     private UserRepository userRepository;
@@ -18,13 +20,5 @@ public class UserService {
     public void create(User user) throws SQLException {
         user.setFullname(user.getFullname().toUpperCase());
         userRepository.create(user);
-    }
-
-    public void update(User user) throws  SQLException {
-        userRepository.update(user);
-    }
-
-    public User get(String email) throws SQLException {
-        return userRepository.get(email);
     }
 }

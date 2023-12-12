@@ -50,22 +50,4 @@ public class UserController {
             return "confirm";
         }
     }
-
-    @RequestMapping("/get/{email}")
-    public String sixth(@PathVariable ("email") String email, Model model) throws SQLException {
-        User user = userService.get(email);
-        model.addAttribute("user", user);
-        return "update";
-    }
-
-    @RequestMapping("/update")
-    public String sixth(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) throws SQLException {
-        if (bindingResult.hasErrors()) {
-            return "update";
-        }
-        else {
-            userService.update(user);
-            return "/";
-        }
-    }
 }
