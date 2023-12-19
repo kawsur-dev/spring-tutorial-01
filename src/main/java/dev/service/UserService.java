@@ -26,4 +26,12 @@ public class UserService {
     public List<User> getAll() {
         return userRepository.getAll();
     }
+
+    public User get(int id) {
+        return userRepository.get(id);
+    }
+
+    public void delete(int id) {
+        userRepository.delete(id);
+    }
 }
