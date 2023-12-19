@@ -15,6 +15,12 @@
 
 <br><br>
 
+<label>Gender</label>
+<form:radiobutton path="gender" value="MALE"/>MALE
+<form:radiobutton path="gender" value="FEMALE"/>FEMALE
+<form:errors path="gender"/>
+<br><br>
+
 <label>Date Of Birth</label>
 <form:input type="date" path="dateOfBirth" id="dateOfBirth"/>
 <form:errors path="dateOfBirth"/>

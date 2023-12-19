@@ -19,23 +19,23 @@ public class UserRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public void create(User user) throws SQLException {
+    public void create(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.save(user);
     }
 
-    public void edit(User user) throws SQLException {
+    public void edit(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.update(user);
     }
 
-    public void delete(int id) throws SQLException {
+    public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
         User user = get(id);
         session.delete(user);
     }
 
-    public List<User> getAll() throws SQLException {
+    public List<User> getAll() {
         Session session = sessionFactory.getCurrentSession();
         Query<User> userQuery = session.createQuery("from User", User.class);
         return userQuery.getResultList();

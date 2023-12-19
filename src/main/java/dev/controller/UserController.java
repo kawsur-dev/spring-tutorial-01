@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @RequestMapping("/store")
-    public String fifth(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) throws SQLException {
+    public String fifth(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "registration";
         }

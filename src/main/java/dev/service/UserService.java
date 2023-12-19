@@ -17,7 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void create(User user) throws SQLException {
+    public void create(User user) {
         user.setFullname(user.getFullname().toUpperCase());
         userRepository.create(user);
     }

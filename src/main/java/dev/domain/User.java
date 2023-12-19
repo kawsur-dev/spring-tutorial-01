@@ -9,7 +9,6 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -24,6 +23,11 @@ public class User {
     @NotNull
     @Column(name = "full_name")
     private String fullname;
+
+    @NotNull
+    @Column(name = "gender")
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @NotNull
     @Pattern(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$", message = "Incorrect email format")
@@ -44,11 +48,20 @@ public class User {
     public User() {
     }
 
-    public User(String fullname, String email, String password, LocalDate dateOfBirth) {
+    public User(String fullname, Gender gender, String email, String password, LocalDate dateOfBirth) {
         this.fullname = fullname;
+        this.gender = gender;
         this.email = email;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFullname() {
@@ -57,6 +70,14 @@ public class User {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public String getEmail() {
