@@ -1,6 +1,8 @@
 package dev.controller;
 
 import dev.domain.User;
+import dev.domain.UserDetail;
+import dev.service.UserDetailService;
 import dev.service.UserService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -18,14 +20,18 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 
 @Controller
 public class UserController {
 
     private UserService userService;
 
-    public UserController(UserService userService) {
+    private UserDetailService userDetailService;
+
+    public UserController(UserService userService, UserDetailService userDetailService) {
         this.userService = userService;
+        this.userDetailService = userDetailService;
     }
 
     @InitBinder
@@ -49,5 +55,14 @@ public class UserController {
             userService.create(user);
             return "confirm";
         }
+    }
+
+    @RequestMapping("/all")
+    public String sixth(Model model) {
+        List<User> users = userService.getAll();
+        List<UserDetail> userDetails = userDetailService.getAll();
+        model.addAttribute("users", users);
+        model.addAttribute("userDetails", userDetails);
+        return "all-user";
     }
 }

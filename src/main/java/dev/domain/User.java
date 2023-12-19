@@ -45,6 +45,9 @@ public class User {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
+    @OneToOne(mappedBy = "user")
+    private UserDetail userDetail;
+
     public User() {
     }
 
@@ -107,10 +110,13 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "fullname='" + fullname + '\'' +
+                "id=" + id +
+                ", fullname='" + fullname + '\'' +
+                ", gender=" + gender +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
+                ", userDetail=" + userDetail.toString() +
                 '}';
     }
 }
