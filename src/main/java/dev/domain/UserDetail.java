@@ -1,6 +1,7 @@
 package dev.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user_detail")
@@ -19,6 +20,9 @@ public class UserDetail {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "userDetail", fetch = FetchType.EAGER)
+    private List<UserAddress> userAddresses;
 
     public UserDetail() {
     }

@@ -30,4 +30,10 @@ public class UserRestController {
         userService.delete(id);
         return "Successful";
     }
+
+    @PostMapping("/users")
+    public String createUser(@RequestBody User user) {
+        userService.create(user);
+        return "Successful";
+    }
 }
